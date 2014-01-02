@@ -1,0 +1,224 @@
+% Introduction to Sqoop and Hive
+% Sqoop 與 Hive 簡介
+% Jazz Yao-Tsung Wang
+
+# 大綱
+
+- PART 1 : 何時該使用哪一種工具呢？
+- PART 2 : Sqoop 簡介
+- PART 3 : Hive 簡介
+
+# PART 1 : 何時該使用哪一種工具呢？
+
+- 巨量資料的三種處理工具
+    * BIG DATA AT REST
+        * MapReduce Framework
+    * BIG DATA IN MOTION
+        * In-Memory Processing
+        * Streaming Data Collection / Data Cleaning
+- 三種不同的情境需求：
+    * 運算密集(Computing-Intensive)
+    * 讀寫密集(Data-Intensive)
+    * 即時分析(Realtime Analytics)
+
+# 巨量資料的三種處理工具
+
+<center>
+![High Throughput Computing Technologies](images/big_data_3v.png)
+<p><font size='2'>Source : ["High Throughput Computing Technologies"](High Throughput Computing Technologies), by Jazz Yao-Tsung Wang, September 12, 2013</font></p>
+</center>
+
+# BIG DATA AT REST
+<center>
+![MapReduce Framework](images/HTC_1.png)
+<p><font size='2'>Source : ["High Throughput Computing Technologies"](High Throughput Computing Technologies), by Jazz Yao-Tsung Wang, September 12, 2013</font></p>
+</center>
+# BIG DATA IN MOTION
+<center>
+![In-Memory Processing](images/HTC_2.png)
+<p><font size='2'>Source : ["High Throughput Computing Technologies"](High Throughput Computing Technologies), by Jazz Yao-Tsung Wang, September 12, 2013</font></p>
+</center>
+# BIG DATA IN MOTION
+<center>
+![Streaming Data Collection / Data Cleaning](images/HTC_3.png)
+<p><font size='2'>Source : ["High Throughput Computing Technologies"](High Throughput Computing Technologies), by Jazz Yao-Tsung Wang, September 12, 2013</font></p>
+</center>
+
+# Apache Big Data Stack (1)
+<center>
+![Apache Big Data Stack (1)](images/big_data_stack_1.png)
+<p><font size='2'>Source : ["The Hadoop Stack - Then, Now and in the Future"](http://www.slideshare.net/slideshow/embed_code/10110006), Hadoop World 2011</font></p>
+</center>
+
+# Apache Big Data Stack (2)
+<center>
+![Apache Big Data Stack (2)](images/big_data_stack_2.png)
+<p><font size='2'>Source : ["The Hadoop Stack - Then, Now and in the Future"](http://www.slideshare.net/slideshow/embed_code/10110006), Hadoop World 2011</font></p>
+</center>
+
+# PART 2 : Introduction to Sqoop
+
+- Sqoop = SQL to Hadoop
+- Sqoop 允許使用者從關聯式資料庫(RDBMS)中擷取資料到 Hadoop，供後續分析使用。
+- Sqoop 也能將分析結果匯入資料庫，供其他用戶端程式使用。
+- 專案首頁：[http://sqoop.apache.org](http://sqoop.apache.org)
+- Sqoop 用法：
+<small><pre>
+user@master ~ $ sqoop
+Try 'sqoop help' for usage.
+</pre></small>
+
+# Sqoop 使用語法
+
+<small>
+<pre>
+user@master ~ $ sqoop help
+usage: sqoop COMMAND [ARGS]
+
+Available commands:
+  codegen            Generate code to interact with database records
+  create-hive-table  Import a table definition into Hive
+  eval               Evaluate a SQL statement and display the results
+  export             Export an HDFS directory to a database table
+  help               List available commands
+  import             Import a table from a database to HDFS
+  import-all-tables  Import tables from a database to HDFS
+  job                Work with saved jobs
+  list-databases     List available databases on a server
+  list-tables        List available tables in a database
+  merge              Merge results of incremental imports
+  metastore          Run a standalone Sqoop metastore
+  version            Display version information
+
+See 'sqoop help COMMAND' for information on a specific command.
+</pre>
+</small>
+
+# Sqoop Import (匯入)
+
+<center>
+![Figure 1: Sqoop Import Overview](images/Sqoop_Import_Overview.png)
+<p><font size='2'>Source : ["Apache Sqoop – Overview"](http://blog.cloudera.com/blog/2011/10/apache-sqoop-overview/), by Arvind Prabhakar, October 06, 2011</font></p>
+![Figure 1: Sqoop Import Overview](images/Sqoop_Import_Overview.png)
+</center>
+
+# Sqoop Import 語法 (1)
+
+<small>
+<pre>
+user@master ~ $ sqoop help import
+usage: sqoop import [GENERIC-ARGS] [TOOL-ARGS]
+
+Common arguments:
+
+--connect [jdbc-uri]              Specify JDBC connect string
+-P                                Read password from console password
+--username [username]             Set authentication username
+
+Import control arguments:
+
+--append                          Imports data in append mode
+--as-avrodatafile                 Imports data to Avro data files
+--as-sequencefile                 Imports data to SequenceFiles
+--as-textfile                     Imports data as plain text (default)
+--columns [col,col,col...]        Columns to import from table
+-e,--query [statement]            Import results of SQL 'statement'
+-m,--num-mappers [n]              Use 'n' map tasks to import in parallel
+--table [table-name]              Table to read
+--target-dir [dir]                HDFS plain table destination
+--where [where clause]            WHERE clause to use during import
+</pre>
+</small>
+
+# Sqoop Import 語法 (2)
+
+<small>
+<pre>
+Hive arguments:
+
+--create-hive-table               Fail if the target hive table exists
+--hive-import                     Import tables into Hive
+--hive-table [table-name]         Sets the table name to use when importing to hive
+
+HBase arguments:
+
+--column-family [family]          Sets the target column family for the import
+--hbase-create-table              If specified, create missing HBase tables
+--hbase-row-key [col]             Specifies which input column to use as the row key
+--hbase-table [table]             Import to [table] in HBase
+
+At minimum, you must specify --connect and --table
+</pre>
+</small>
+
+# Sqoop Export (匯出)
+
+<center>
+![Figure 2: Sqoop Export Overview](images/Sqoop_Export_Overview.png)
+<p><font size='2'>Source : ["Apache Sqoop – Overview"](http://blog.cloudera.com/blog/2011/10/apache-sqoop-overview/), by Arvind Prabhakar, October 06, 2011</font></p>
+</center>
+
+# Sqoop Export 語法
+
+<small><pre>
+user@master ~ $ sqoop help export
+usage: sqoop export [GENERIC-ARGS] [TOOL-ARGS]
+
+Common arguments:
+
+   --connect [jdbc-uri]            Specify JDBC connect string
+-P                                 Read password from console
+   --username [username]           Set authentication username
+
+Export control arguments:
+
+   --columns [col,col,col...]      Columns to export to table
+   --export-dir [dir]              HDFS source path for the export
+-m,--num-mappers [n]               Use 'n' map tasks to export in parallel
+   --table [table-name]            Table to populate
+
+At minimum, you must specify --connect, --export-dir, and --table
+</pre></small>
+
+# PART 3 : Introduction to Hive
+
+- Jeff Hammerbacher 團隊在臉書(Facebook)打造的資訊平台中，最大構成要素之一
+- Hive 是建構於 Hadoop 之上的資料倉儲框架(a framework for data warehousing)。
+- Hive 是寫給具備強大 SQL 技能(卻缺乏 Java 程式設計技能)的分析師們,用來查詢臉書存於 HDFS 的海量資料。
+- SQL 擁有廣為業界熟知的龐大優勢。是商業智慧(business intelligence)的通用語法(lingua franca,就像 ODBC 是通用橋接器一樣),因此 Hive 能
+與這些商品做緊密的整合。
+
+# Hive 與傳統資料庫之比較
+
+<center><font size=3>
+
+特徵		    Hive                                   RDBMS
+--------------	    ---------------------------	  ---------------------------------
+Schema		    Schema on READ		  Schema on WRITE
+更新(Update)	    支援 INSERT			  支援 UPDATE, INSERT, DELETE
+交易(Transaction)   不支援			  支援
+索引(Indexes)	    不支援			  支援
+延遲(Latency)	    數分鐘			  秒以內 
+函數(Function)	    數十個內建函數		  上百個內建函數
+多重表格新增	    支援			  不支援 
+SELECT時建立資料表  支援			  在 SQL-02 不支援 
+SELECT		    FROM 子句限用單一資料表	  SQL-92 標準
+JOIN		    INNER, OUTER, SEMI, MAP JOINS SQL-92 或其他變形
+次查詢(Subqueries)  只能在 FROM 子句中使用	  在任何子句
+
+Table: Hive vs RDBMS
+
+Source: "表 12-2. SQL 與 HiveQL 的高階比較表", Hadoop 技術大全，第三版
+</font></center>
+
+# "Schema on Write" vs "Schema on Read"
+
+- 「schema on write」:在傳統資料庫中,一個資料表的 schema 是在資料載入時就被強制套用了。
+    * 讓查詢的效率比較快
+    * 可以針對欄位做索引,並對資料做壓縮。
+    * 代價是它必須花較久的時間來把資料載入資料庫
+- 「schema on read」：Hiv 並不會在資料載入時進行驗證,相反地它只有在進行查詢時才作驗證。
+    * 讓初始化載入可以很快執行
+    * 載入(Load)的操作只是檔案的複製或搬運
+    * 較有彈性:假設有兩種 schema 對應相同的底層資料,視欲執行之分析而定
+    * 有許多情境(scenario)是載入 schema 時無法預知的,因此在還沒執行查詢前,無法套用索引。
