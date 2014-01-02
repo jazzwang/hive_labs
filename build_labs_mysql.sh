@@ -13,8 +13,8 @@ echo "Connecting to mysql://root@$HOST .... please type the password of root ...
 mysql -h $HOST -u root -p < add_user_db.sql
 ## Create default user name and password for each student on MySQL Server
 echo "SHOW DATABASES;" > add_user.sql
-for ((i=1;i<=$USERS;i++)); do printf "GRANT SELECT,INSERT,UPDATE ON user%02d.* TO 'user%02d'@'%s' IDENTIFIED BY '$PASSWORD';\n" $i $i '%'; done >> add_user.sql
-for ((i=1;i<=$USERS;i++)); do printf "GRANT SELECT,INSERT,UPDATE ON test.* TO 'user%02d'@'%s' IDENTIFIED BY '$PASSWORD';\n" $i '%'; done >> add_user.sql
+for ((i=1;i<=$USERS;i++)); do printf "GRANT ALL ON user%02d.* TO 'user%02d'@'%s' IDENTIFIED BY '$PASSWORD';\n" $i $i '%'; done >> add_user.sql
+for ((i=1;i<=$USERS;i++)); do printf "GRANT SELECT ON test.* TO 'user%02d'@'%s' IDENTIFIED BY '$PASSWORD';\n" $i '%'; done >> add_user.sql
 echo "FLUSH PRIVILEGES;" >> add_user.sql
 echo "Connecting to mysql://root@$HOST .... please type the password of root ...."
 mysql -h $HOST -u root -p < add_user.sql
