@@ -192,22 +192,22 @@ At minimum, you must specify --connect, --export-dir, and --table
 
 <center><font size=3>
 
-特徵		    Hive                                   RDBMS
---------------	    ---------------------------	  ---------------------------------
-Schema		    Schema on READ		  Schema on WRITE
-更新(Update)	    支援 INSERT			  支援 UPDATE, INSERT, DELETE
-交易(Transaction)   不支援			  支援
-索引(Indexes)	    不支援			  支援
-延遲(Latency)	    數分鐘			  秒以內 
-函數(Function)	    數十個內建函數		  上百個內建函數
-多重表格新增	    支援			  不支援 
-SELECT時建立資料表  支援			  在 SQL-02 不支援 
-SELECT		    FROM 子句限用單一資料表	  SQL-92 標準
-JOIN		    INNER, OUTER, SEMI, MAP JOINS SQL-92 或其他變形
-次查詢(Subqueries)  只能在 FROM 子句中使用	  在任何子句
+<table>
+<tr><td> 特徵 </td><td>  Hive </td><td> RDBMS </td></tr>
+<tr><td> Schema	         </td><td>  Schema on READ		 </td><td> Schema on WRITE                </td></tr>
+<tr><td> 更新(Update)	 </td><td>  支援 INSERT		         </td><td> 支援 UPDATE, INSERT, DELETE    </td></tr>
+<tr><td> 交易(Transaction)  </td><td>  不支援			 </td><td> 支援                           </td></tr>
+<tr><td> 索引(Indexes)	 </td><td>  不支援			 </td><td> 支援                           </td></tr>
+<tr><td> 延遲(Latency)	 </td><td>  數分鐘			 </td><td> 秒以內                         </td></tr>
+<tr><td> 函數(Function)  </td><td>  數十個內建函數		 </td><td> 上百個內建函數                 </td></tr>
+<tr><td> 多重表格新增	 </td><td>  支援			 </td><td> 不支援                         </td></tr>
+<tr><td> SELECT時建立資料表 </td><td>  支援			 </td><td> 在 SQL-02 不支援               </td></tr>
+<tr><td> SELECT	         </td><td> FROM 子句限用單一資料表	 </td><td> SQL-92 標準                    </td></tr>
+<tr><td> JOIN	    	 </td><td> INNER, OUTER, SEMI, MAP JOINS </td><td> SQL-92 或其他變形              </td></tr>
+<tr><td> 次查詢(Subqueries) </td><td> 只能在 FROM 子句中使用	 </td><td> 在任何子句                     </td></tr>
+</table>
 
 Table: Hive vs RDBMS
-
 Source: "表 12-2. SQL 與 HiveQL 的高階比較表", Hadoop 技術大全，第三版
 </font></center>
 
@@ -217,7 +217,7 @@ Source: "表 12-2. SQL 與 HiveQL 的高階比較表", Hadoop 技術大全，第
     * 讓查詢的效率比較快
     * 可以針對欄位做索引,並對資料做壓縮。
     * 代價是它必須花較久的時間來把資料載入資料庫
-- 「schema on read」：Hiv 並不會在資料載入時進行驗證,相反地它只有在進行查詢時才作驗證。
+- 「schema on read」：Hive 並不會在資料載入時進行驗證,相反地它只有在進行查詢時才作驗證。
     * 讓初始化載入可以很快執行
     * 載入(Load)的操作只是檔案的複製或搬運
     * 較有彈性:假設有兩種 schema 對應相同的底層資料,視欲執行之分析而定

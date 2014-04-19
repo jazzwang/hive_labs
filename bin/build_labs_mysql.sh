@@ -5,19 +5,22 @@ HOST=sql.3du.me
 PASSWORD="sqoop@etu"
 ## USERS : number of students
 USERS=30
+echo "Download MySQL from http://dev.mysql.com/get/Downloads/MySQLInstaller/mysql-installer-web-community-5.6.17.0.msi"
+echo "Install MySQL onto Windows 2008 R2 Server"
+echo "Run WF.msc and add 1433 (MSSQL TCP) and 3306 (MySQL TCP) for remote access"
 ## Create default database for each student on MySQL Server
 echo "SHOW DATABASES;" > add_mysql_user_db.sql
-for ((i=1;i<=$USERS;i++)); do printf "DROP DATABASE IF EXISTS user%02d;\n" $i; done >> add_mysql_user_db.sql
-for ((i=1;i<=$USERS;i++)); do printf "CREATE DATABASE user%02d;\n" $i; done >> add_mysql_user_db.sql
+for ((i=0;i<=$USERS;i++)); do printf "DROP DATABASE IF EXISTS user%02d;\n" $i; done >> add_mysql_user_db.sql
+for ((i=0;i<=$USERS;i++)); do printf "CREATE DATABASE user%02d;\n" $i; done >> add_mysql_user_db.sql
 echo "Connecting to mysql://root@$HOST .... please type the password of root ...."
-# mysql -h $HOST -u root -p < add_mysql_user_db.sql
+echo "mysql -h $HOST -u root -p < add_mysql_user_db.sql"
 ## Create default user name and password for each student on MySQL Server
 echo "SHOW DATABASES;" > add_mysql_user.sql
-for ((i=1;i<=$USERS;i++)); do printf "GRANT ALL ON user%02d.* TO 'user%02d'@'%s' IDENTIFIED BY '$PASSWORD';\n" $i $i '%'; done >> add_mysql_user.sql
-for ((i=1;i<=$USERS;i++)); do printf "GRANT SELECT ON test.* TO 'user%02d'@'%s' IDENTIFIED BY '$PASSWORD';\n" $i '%'; done >> add_mysql_user.sql
+for ((i=0;i<=$USERS;i++)); do printf "GRANT ALL ON user%02d.* TO 'user%02d'@'%s' IDENTIFIED BY '$PASSWORD';\n" $i $i '%'; done >> add_mysql_user.sql
+for ((i=0;i<=$USERS;i++)); do printf "GRANT SELECT ON test.* TO 'user%02d'@'%s' IDENTIFIED BY '$PASSWORD';\n" $i '%'; done >> add_mysql_user.sql
 echo "FLUSH PRIVILEGES;" >> add_mysql_user.sql
 echo "Connecting to mysql://root@$HOST .... please type the password of root ...."
-# mysql -h $HOST -u root -p < add_mysql_user.sql
+echo "mysql -h $HOST -u root -p < add_mysql_user.sql"
 ## Create test.mysql_data for testing
 cat > mysql_data.sql << EOF
 USE test;
@@ -33,7 +36,7 @@ CREATE TABLE test.nyse_daily (exchange varchar(10), symbol varchar(10), date DAT
 SHOW TABLES;
 EOF
 echo "Connecting to mysql://root@$HOST .... please type the password of root ...."
-#mysql -h $HOST -u root -p < mysql_data.sql
+echo "mysql -h $HOST -u root -p < mysql_data.sql"
 ## Create 
 #wget https://github.com/alanfgates/programmingpig/raw/master/data/NYSE_daily -O nyse_daily
 #echo "LOAD DATA LOCAL INFILE '$(pwd)/nyse_daily' INTO TABLE test.nyse_daily FIELDS TERMINATED BY '\t' LINES TERMINATED BY '\n';" > nyse_daily.sql
