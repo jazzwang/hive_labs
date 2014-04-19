@@ -10,9 +10,6 @@ slide: SLIDES
 	pandoc --from markdown --to s5 -s -S -c pandoc.css $< --output slide.html
 	@## pandoc -t beamer SLIDES --latex-engine=xelatex -o slide.pdf
 
-pdf: $(wildcard Lab*.md)
-	pandoc --from markdown --to pdf -s -S -c pandoc.css $< --output $@
-
 sync: all
 	rsync -avzr --partial --progress --rsh=ssh * jazz@graph.3du.me:public_html/hive/
 
