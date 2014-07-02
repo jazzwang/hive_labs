@@ -11,7 +11,7 @@ slide: SLIDES
 	@## pandoc -t beamer SLIDES --latex-engine=xelatex -o slide.pdf
 
 sync: all
-	rsync -avzr --partial --progress --rsh=ssh * jazz@graph.3du.me:public_html/hive/
+	rsync -avzr --partial --progress --rsh=ssh * jazz@hive.3du.me:public_html/hive/
 
 %.html: %.md
 	$(MARKDOWN) $< --output $@
