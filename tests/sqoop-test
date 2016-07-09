@@ -1,21 +1,41 @@
 #!/bin/bash
-set -x
+PASSWORD='sqoop@lab'
+
+echo "Test Case for Lab 1"
 sqoop version
 sqoop
 sqoop help
 export DBID=$USER
-sqoop list-databases --connect "jdbc:mysql://localhost/"  --username $DBID -P
-sqoop list-tables --connect "jdbc:mysql://localhost/$DBID"  --username $DBID -P
-sqoop import --connect "jdbc:mysql://localhost/$DBID" --table mysql_data --username $DBID -P
+sqoop list-databases --connect "jdbc:mysql://localhost/"  --username $DBID --password $PASSWORD
+sqoop list-tables --connect "jdbc:mysql://localhost/$DBID"  --username $DBID --password $PASSWORD
+sqoop import --connect "jdbc:mysql://localhost/$DBID" --table mysql_data --username $DBID --password $PASSWORD
+echo "Test Case for Lab 2"
 hadoop fs -ls mysql_data
 hadoop fs -cat mysql_data/part-*
 hive -e "create database $DBID"
 hadoop fs -rm -r -skipTrash mysql_data
-sqoop create-hive-table --connect "jdbc:mysql://localhost/$DBID" --table mysql_data --username $DBID -P --hive-table mysql_data --hive-database $DBID
+sqoop create-hive-table --connect "jdbc:mysql://localhost/$DBID" --table mysql_data --username $DBID --password $PASSWORD --hive-table mysql_data --hive-database $DBID
 hadoop fs -ls /user/hive/warehouse/$DBID.db
 hadoop fs -ls /user/hive/warehouse/$DBID.db/mysql_data
 hive -e "show tables; use $DBID; describe mysql_data;" 
-sqoop import --connect "jdbc:mysql://localhost/$DBID" --table mysql_data --username $DBID -P --hive-import --hive-table mysql_data --hive-database $DBID
+sqoop import --connect "jdbc:mysql://localhost/$DBID" --table mysql_data --username $DBID --password $PASSWORD --hive-import --hive-table mysql_data --hive-database $DBID
 hadoop fs -ls /user/hive/warehouse/$DBID.db/mysql_data/
 hadoop fs -cat /user/hive/warehouse/$DBID.db/mysql_data/part-*
+echo "Test Case for Lab 3"
+hadoop fs -mkdir export
+cat >> data << EOF
+3,Bye
+4,Over
+EOF
+hadoop fs -put data export
+hadoop fs -cat export/data
+sqoop export --connect "jdbc:mysql://localhost/$DBID" --table mysql_data --username $DBID --password $PASSWORD --export-dir /user/${USER}/export
+echo "use $DBID; select * from mysql_data;" | mysql -u $DBID -p
 
+echo "Cleaning up ...."
+hive -e "DROP TABLE IF EXISTS ${USER}.mysql_data;"
+hive -e "DROP DATABASE IF EXISTS ${USER};"
+hadoop fs -rm -r -skipTrash mysql_data .Trash .staging
+echo "use $DBID; delete from mysql_data where id >= 3;" | mysql -u $DBID --password $PASSWORD
+echo "use $DBID; select * from mysql_data;" | mysql -u $DBID --password $PASSWORD
+rm -f data mysql_data.java
