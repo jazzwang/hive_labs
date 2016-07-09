@@ -1,0 +1,21 @@
+#!/bin/bash
+set -x
+sqoop version
+sqoop
+sqoop help
+export DBID=$USER
+sqoop list-databases --connect "jdbc:mysql://localhost/"  --username $DBID -P
+sqoop list-tables --connect "jdbc:mysql://localhost/$DBID"  --username $DBID -P
+sqoop import --connect "jdbc:mysql://localhost/$DBID" --table mysql_data --username $DBID -P
+hadoop fs -ls mysql_data
+hadoop fs -cat mysql_data/part-*
+hive -e "create database $DBID"
+hadoop fs -rm -r -skipTrash mysql_data
+sqoop create-hive-table --connect "jdbc:mysql://localhost/$DBID" --table mysql_data --username $DBID -P --hive-table mysql_data --hive-database $DBID
+hadoop fs -ls /user/hive/warehouse/$DBID.db
+hadoop fs -ls /user/hive/warehouse/$DBID.db/mysql_data
+hive -e "show tables; use $DBID; describe mysql_data;" 
+sqoop import --connect "jdbc:mysql://localhost/$DBID" --table mysql_data --username $DBID -P --hive-import --hive-table mysql_data --hive-database $DBID
+hadoop fs -ls /user/hive/warehouse/$DBID.db/mysql_data/
+hadoop fs -cat /user/hive/warehouse/$DBID.db/mysql_data/part-*
+
