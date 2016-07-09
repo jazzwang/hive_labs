@@ -5,6 +5,8 @@ if [ "$LDAP_PW" == "" ]; then
   exit -1
 fi
 
+PASSWORD='sqoop@lab'
+
 cat > /etc/openldap/data/lab.ldif << EOF
 dn: uid=user00,ou=user,dc=master
 uid: user00
@@ -491,46 +493,46 @@ hue_gid=$(getent group hue | cut -d: -f3)
 sed -i "s#495#$hue_gid#g" /etc/openldap/data/lab.ldif
 
 ldapadd -x -D "cn=Manager,dc=master" -w "$LDAP_PW" -f /etc/openldap/data/lab.ldif
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user00,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user01,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user02,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user03,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user04,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user05,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user06,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user07,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user08,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user09,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user10,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user11,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user12,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user13,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user14,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user15,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user16,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user17,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user18,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user19,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user20,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user21,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user22,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user23,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user24,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user25,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user26,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user27,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user28,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user29,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user30,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user31,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user32,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user33,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user34,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user35,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user36,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user37,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user38,ou=user,dc=master" -s sqoop@lab
-ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user39,ou=user,dc=master" -s sqoop@lab
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user00,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user01,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user02,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user03,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user04,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user05,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user06,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user07,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user08,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user09,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user10,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user11,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user12,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user13,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user14,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user15,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user16,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user17,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user18,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user19,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user20,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user21,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user22,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user23,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user24,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user25,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user26,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user27,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user28,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user29,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user30,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user31,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user32,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user33,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user34,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user35,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user36,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user37,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user38,ou=user,dc=master" -s $PASSWORD
+ldappasswd -h master -D "cn=Manager,dc=master" -w "$LDAP_PW" "uid=user39,ou=user,dc=master" -s $PASSWORD
 
 
 #### Add HDFS Home
@@ -552,12 +554,12 @@ if [ -f sample_mysql_data.sql ]; then rm -f sample_mysql_data.sql; fi
 for ((i=0;i<=$USER;i++)); do
   USERID=$(printf "user%02d" $i)
   echo $USERID
-  echo "DROP DATABASE IF EXISTS $USERID;"       >> sample_mysql_data.sql
-  echo "CREATE DATABASE $USERID;"               >> sample_mysql_data.sql
-  echo "GRANT ALL ON ${USERID}.* TO '$USERID'@'%';" >> sample_mysql_data.sql
+  echo "DROP DATABASE IF EXISTS $USERID;"                                        >> sample_mysql_data.sql
+  echo "CREATE DATABASE $USERID;"                                                >> sample_mysql_data.sql
+  echo "GRANT ALL ON ${USERID}.* TO '$USERID'@'%' IDENTIFIED BY '$PASSWORD';"    >> sample_mysql_data.sql
   echo "CREATE TABLE $USERID.mysql_data (id int primary key, name varchar(50));" >> sample_mysql_data.sql
   echo "INSERT INTO  $USERID.mysql_data VALUES (1, 'Hello');"                    >> sample_mysql_data.sql
   echo "INSERT INTO  $USERID.mysql_data VALUES (2, 'World');"                    >> sample_mysql_data.sql
 done
-echo "FLUSH PRIVILEGES;"                        >> sample_mysql_data.sql
+echo "FLUSH PRIVILEGES;"                                                         >> sample_mysql_data.sql
 mysql -u root -p < sample_mysql_data.sql
