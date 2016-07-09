@@ -8,12 +8,13 @@ echo "Test Case for Hive Lab (1)"
 
 mkdir baseball
 cd baseball/
-wget http://seanlahman.com/files/database/lahman2015-csv.zip
-unzip lahman2015-csv.zip
+wget http://seanlahman.com/files/database/lahman2012-csv.zip
+unzip lahman2012-csv.zip
 hadoop fs -mkdir baseball
 hadoop fs -put *.csv baseball
 hadoop fs -ls baseball
 hive -e "show databases;"
+hive -e "create database ${DBID};"
 hive -e "create table ${DBID}.Master
 ( lahmanID INT, playerID STRING, managerID INT, hofID STRING, 
   birthYear INT, birthMonth INT, birthDay INT, birthCountry STRING, 
@@ -27,23 +28,23 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' ;"
 hive -e "LOAD DATA LOCAL INPATH \"Master.csv\" OVERWRITE INTO TABLE ${DBID}.master;"
 hive -e "LOAD DATA INPATH '/user/${DBID}/baseball/Master.csv' OVERWRITE INTO TABLE ${DBID}.master;"
 hive -e "SHOW DATABASES; use ${DBID}; SHOW TABLES;"
-hive -e "SELECT * FROM Master LIMIT 10;"
-hive -e "SELECT lahmanID FROM Master LIMIT 10;"
-hive -e "SELECT lahmanID FROM Master WHERE birthyear > 1900 LIMIT 10;"
-hive -e "SELECT COUNT( * ) FROM Master;"
-hive -S -e "use ${DBID}; SELECT birthyear, lahmanID, nameFirst FROM master WHERE birthyear > 1900 limit 10;"
+hive -e "SELECT * FROM ${DBID}.Master LIMIT 10;"
+hive -e "SELECT lahmanID FROM ${DBID}.Master LIMIT 10;"
+hive -e "SELECT lahmanID FROM ${DBID}.Master WHERE birthyear > 1900 LIMIT 10;"
+hive -e "SELECT COUNT( * ) FROM ${DBID}.Master;"
+hive -S -e "SELECT birthyear, lahmanID, nameFirst FROM ${DBID}.master WHERE birthyear > 1900 limit 10;"
 
 echo "Test Case for Hive Lab (2)"
 
 hive -e "create table ${DBID}.Batting
 ( playerID STRING, yearID INT, stint INT, teamID STRING, lgID STRING,
-  G INT, G_batting INT, AB INT, R INT, H INT, 2B INT, 3B INT, HR INT,
+  G INT, G_batting INT, AB INT, R INT, H INT, B2 INT, B3 INT, HR INT,
   RBI INT, SB INT, CS INT, BB INT, SO INT, IBB INT, HBP INT, SH INT,
   SF INT, GIDP INT, G_old INT ) 
 ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' ;"
 hive -e "use ${DBID}; SHOW TABLES;"
 hive -e "SELECT * FROM ${DBID}.batting LIMIT 10;"
-hive -e "use ${DBID}; SELECT A.PlayerID, B.teamID, B.AB, B.R, B.H, B.2B, B.3B, B.HR, B.RBI FROM Master A JOIN BATTING B ON A.playerID = B.playerID;"
+hive -e "use ${DBID}; SELECT A.PlayerID, B.teamID, B.AB, B.R, B.H, B.B2, B.B3, B.HR, B.RBI FROM Master A JOIN BATTING B ON A.playerID = B.playerID;"
 
 echo "Test Case for Hive Lab (3)"
 
@@ -57,5 +58,11 @@ ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' ;"
 hive -e "LOAD DATA LOCAL INPATH \"Pitching.csv\" OVERWRITE INTO TABLE ${DBID}.Pitching;"
 hive -e "use ${DBID}; SHOW TABLES;"
 hive -e "SELECT * FROM ${DBID}.pitching LIMIT 10;"
-hive -e "use ${DBID}; CREATE TABLE fact_player_stats AS SELECT A.PlayerID, B.teamID, B.AB, B.R, B.H, B.2B, B.3B, B.HR, B.RBI, P.G FROM Master A JOIN BATTING B ON A.playerID = B.playerID JOIN Pitching P ON B.playerID = P.playerID;"
+hive -e "use ${DBID}; CREATE TABLE fact_player_stats AS SELECT A.PlayerID, B.teamID, B.AB, B.R, B.H, B.B2, B.B3, B.HR, B.RBI, P.G FROM Master A JOIN BATTING B ON A.playerID = B.playerID JOIN Pitching P ON B.playerID = P.playerID;"
 hive -e "SELECT * FROM ${DBID}.fact_player_stats LIMIT 10;"
+
+echo "Test Case for Hive Lab (4)"
+
+hive -e "use ${DBID}; EXPLAIN SELECT A.PlayerID, B.teamID, B.AB, B.R, B.H, B.B2, B.B3, B.HR, B.RBI FROM Master A JOIN BATTING B ON A.playerID = B.playerID;"
+hive -e "use ${DBID}; DESCRIBE mysql_data; DESCRIBE master;"
+hive -e "DESCRIBE FUNCTION max;"
