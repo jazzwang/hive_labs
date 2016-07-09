@@ -1,0 +1,12 @@
+#!/bin/bash
+
+DBID=$USER
+PASSWORD='sqoop@lab'
+
+echo "Cleaning up ...."
+hive -e "DROP TABLE IF EXISTS ${USER}.mysql_data;"
+hive -e "DROP DATABASE IF EXISTS ${USER};"
+hadoop fs -rm -r -skipTrash mysql_data .Trash .staging
+echo "use $DBID; delete from mysql_data where id >= 3;" | mysql -u $DBID --password=$PASSWORD
+echo "use $DBID; select * from mysql_data;" | mysql -u $DBID --password=$PASSWORD
+rm -f data mysql_data.java
