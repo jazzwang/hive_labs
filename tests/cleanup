@@ -10,3 +10,11 @@ hadoop fs -rm -r -skipTrash mysql_data .Trash .staging
 echo "use $DBID; delete from mysql_data where id >= 3;" | mysql -u $DBID --password=$PASSWORD
 echo "use $DBID; select * from mysql_data;" | mysql -u $DBID --password=$PASSWORD
 rm -f data mysql_data.java
+
+rm -rf hive-test table1.csv table2.csv baseball/
+hadoop fs -rm -r -f -skipTrash baseball export logs .staging .Trash
+impala-shell -q "use $DBID;
+drop table t1; drop table t2; drop table logins; drop table logs; drop table users;
+drop table batting; drop table fact_player_stats; drop table master; drop table pitching;
+show tables;
+invalidate metadata;"
