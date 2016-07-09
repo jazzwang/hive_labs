@@ -1,0 +1,4 @@
+#!/bin/bash
+# EM 2.5.3
+# aws ec2 run-instances --image-id ami-ca774a98 --instance-type m3.2xlarge --key-name jazzbook $@
+aws ec2 run-instances --image-id ami-a829eacb --instance-type r3.xlarge --key-name jazzbook $@
