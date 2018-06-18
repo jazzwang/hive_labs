@@ -7,7 +7,9 @@ apt-get -y update > /dev/null
 apt-get -y install wget tar gzip ntp oracle-j2sdk1.7 cloudera-manager-agent hive spark-core
 
 echo "vm.swappiness = 0" > /etc/sysctl.d/15-swappiness.conf
-sysctl -p
+sysctl -w vm.swappiness=0
+
+sed -i 's#PasswordAuthentication no#PasswordAuthentication yes#' /etc/ssh/sshd_config
 
 sed -i 's#server_host=.*#server_host=hdp01.3du.me#' /etc/cloudera-scm-agent/config.ini
 /etc/init.d/cloudera-scm-agent restart
