@@ -1,0 +1,17 @@
+#!/bin/bash
+
+USER=20
+if [ ! -f ".user_created" ]; then
+for ((i=0;i<=$USER;i++)); do
+  USERID=$(printf "user%02d" $i)
+  echo $USERID
+  yes | adduser $USERID
+  mkdir -p /home/$USERID/.ssh
+  cp /home/ubuntu/.ssh/authorized_keys /home/$USERID/.ssh/.
+  chown -R $USERID:$USERID /home/$USERID/.ssh
+  chmod 700 /home/$USERID/.ssh
+  chmod 600 /home/$USERID/.ssh/authorized_keys
+  echo -e "hadoop.TW\nhadoop.TW\n" | passwd $USERID
+done
+touch .user_created
+fi
